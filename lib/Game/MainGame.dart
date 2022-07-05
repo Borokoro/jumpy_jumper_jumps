@@ -140,7 +140,7 @@ class MainGame extends FlameGame with TapDetector, HasCollidables{
 
     jumper=PlayerComponent(
       sprite: player.getSpriteById(0),
-      size: Vector2(variable.screenWidth/6,variable.screenHeight/12),
+      size: Vector2(64,55),
       position: camera.canvasSize/2,
     );
     jumper.anchor=Anchor.center;

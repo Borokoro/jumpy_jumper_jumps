@@ -37,6 +37,7 @@ class PlayerComponent extends SpriteComponent
 
   @override
   void update(double dt) {
+    print("1");
     variables.jumperdy = position[1];
     if (licznik > 100) licznik = 6;
     licznik++;
