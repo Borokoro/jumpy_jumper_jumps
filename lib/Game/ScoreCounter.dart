@@ -3,15 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flame/assets.dart';
 import 'package:flame/components.dart';
 import 'package:flame/palette.dart';
+import 'package:jumpy_jumper_jumps/Game/MainGame.dart';
 import 'package:jumpy_jumper_jumps/Game/PlayerComponent.dart';
 import 'dart:ui';
 import 'dart:math' as math;
 import 'package:flame/components.dart';
 import 'package:flame/geometry.dart';
 
-import 'package:jumpy_jumper_jumps/variables.dart' as variable;
-
-class ScoreCounter extends SpriteComponent with HasHitboxes, Collidable{
+class ScoreCounter extends SpriteComponent with HasHitboxes, Collidable, HasGameRef<MainGame>{
   Vector2 moveDirection=Vector2(0,1);
   ScoreCounter({
     Vector2? position,
@@ -28,10 +27,10 @@ class ScoreCounter extends SpriteComponent with HasHitboxes, Collidable{
 
   @override
   void update(double dt) {
-    if(variable.jumperdy<=variable.screenHeight/2 && variable.isDown==false && variable.firstTime==false){
-      position+=moveDirection.normalized() * variable.speed*0.016;
+    if(gameRef.jumperdy<=gameRef.screenHeight/2 && gameRef.isDown==false && gameRef.firstTime==false){
+      position+=moveDirection.normalized() * gameRef.speed*0.016;
     }
-    if(position[1]>=variable.screenHeight) removeFromParent();
+   // if(position[1]>=gameRef.screenHeight) removeFromParent();
     super.update(dt);
   }
 
@@ -39,8 +38,8 @@ class ScoreCounter extends SpriteComponent with HasHitboxes, Collidable{
   void onCollision(Set<Vector2> intersectionPoints, Collidable other) {
     if(other is PlayerComponent){
       FlameAudio.play('scorePoint.mp3');
-      variable.score++;
-      remove(this);
+      gameRef.scorePoints++;
+      removeFromParent();
     }
   }
 }

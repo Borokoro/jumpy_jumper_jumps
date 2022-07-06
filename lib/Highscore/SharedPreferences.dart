@@ -1,7 +1,8 @@
-
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:jumpy_jumper_jumps/variables.dart' as variable;
+
 class InitializePref{
+  int score=0;
+  InitializePref({required this.score});
   static SharedPreferences? preferences;
   static Future<int?> getHighscore() async{
     preferences=await SharedPreferences.getInstance();
@@ -12,8 +13,8 @@ class InitializePref{
       return 0;
     }
   }
-  static Future setHighscore() async{
+   Future setHighscore() async{
     preferences=await SharedPreferences.getInstance();
-    preferences!.setInt("HighscoreJumpyJumper911", variable.score);
+    preferences!.setInt("HighscoreJumpyJumper911", score);
   }
 }

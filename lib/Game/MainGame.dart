@@ -14,8 +14,8 @@ import 'package:jumpy_jumper_jumps/Game/Obstacle.dart';
 import 'package:jumpy_jumper_jumps/Game/PlayerComponent.dart';
 import 'package:jumpy_jumper_jumps/Game/GameScreen.dart';
 import 'package:jumpy_jumper_jumps/Game/Platform.dart';
+import 'Grass.dart';
 import 'package:jumpy_jumper_jumps/Game/Obstacle.dart';
-import 'package:jumpy_jumper_jumps/variables.dart' as variable;
 import 'ScoreCounter.dart';
 import 'package:jumpy_jumper_jumps/Highscore/SharedPreferences.dart';
 import 'package:flame_audio/bgm.dart';
@@ -30,18 +30,33 @@ class MainGame extends FlameGame with TapDetector, HasCollidables{
   late final szczebeln;
   late final player;
   late final spriteSheet;
+  late final grassTexture;
+  late Grass grass;
   late TextComponent score;
   late ScoreCounter scoreCounter;
   final style=TextStyle(color: BasicPalette.white.color,fontSize: 50,fontFamily: 'FascinateInline',fontWeight: FontWeight.bold);
-
+  int? highScore=0;
+  bool firstTime=true;
+  int scorePoints=0;
+  bool pauseColision=true;
+  bool isDead=false;
+  bool isDown=true;
+  double speed=0;
+  double screenWidth=0;
+  double screenHeight=0;
+  double spawner=0;
+  double jumperdy=0;
+  double platformPositionX=0;
 
   Future<void> onLoad() async {
     await images.load('jumper3.png');
     await images.load('platform.png');
     await images.load('szczebel.png');
     await images.load('scoreCounter.png');
-    variable.screenWidth=size[0];
-    variable.screenHeight=size[1];
+    await images.load('grass.png');
+    highScore=await InitializePref.getHighscore();
+    screenWidth=size[0];
+    screenHeight=size[1];
     SpriteComponent background=SpriteComponent()
       ..sprite=await loadSprite('background2.png')
       ..size=size;
@@ -49,6 +64,7 @@ class MainGame extends FlameGame with TapDetector, HasCollidables{
     player=SpriteSheet.fromColumnsAndRows(image: images.fromCache('jumper3.png'), columns: 1, rows: 1);
     szczebel=SpriteSheet.fromColumnsAndRows(image: images.fromCache('szczebel.png'), columns: 1, rows: 1);
     szczebeln=SpriteSheet.fromColumnsAndRows(image: images.fromCache('scoreCounter.png'), columns: 1, rows: 1);
+    grassTexture=SpriteSheet.fromColumnsAndRows(image: images.fromCache('grass.png'), columns: 1, rows: 1);
     spriteSheet = SpriteSheet.fromColumnsAndRows(
         image: images.fromCache('platform.png'), columns: 1, rows: 1);
      LoadAssets();
@@ -57,10 +73,10 @@ class MainGame extends FlameGame with TapDetector, HasCollidables{
 
 @override
   void update(double dt) {
-    if(variable.spawner>variable.screenHeight/2){
+    if(spawner>screenHeight/2){
       random=randomf();
       print(random);
-      variable.spawner=0;
+      spawner=0;
       obstacle=Obstacle(
         sprite: szczebel.getSpriteById(0),
         size: Vector2(random.toDouble(),9),
@@ -75,19 +91,19 @@ class MainGame extends FlameGame with TapDetector, HasCollidables{
       add(scoreCounter);
       obstacle=Obstacle(
         sprite: szczebel.getSpriteById(0),
-        size: Vector2(variable.screenWidth-(64*3 + random),9),
+        size: Vector2(screenWidth-(64*3 + random),9),
         position: Vector2(random + 64*3,9),
       );
       add(obstacle);
     }
-    score.text=variable.score.toString();
-    if(variable.isDead){
+    score.text=scorePoints.toString();
+    if(isDead){
       FlameAudio.play('death.mp3');
-      variable.isDead=false;
+      isDead=false;
       this.pauseEngine();
-      if(variable.score>variable.highScore!.toInt()){
-        variable.highScore=variable.score;
-        InitializePref.setHighscore();
+      if(scorePoints>highScore!.toInt()){
+        highScore=scorePoints;
+        InitializePref(score: scorePoints).setHighscore();
       }
       this.overlays.add(GameOverMenu.ID);
 
@@ -96,7 +112,7 @@ class MainGame extends FlameGame with TapDetector, HasCollidables{
   }
   @override
   void onTapDown(TapDownInfo info) {
-    if(variable.pauseColision==false) {
+    if(pauseColision==false) {
       children.whereType<Platform>().forEach((element) {
         remove(element);
       });
@@ -108,7 +124,7 @@ class MainGame extends FlameGame with TapDetector, HasCollidables{
       );
       platform.anchor = Anchor.center;
       add(platform);
-      variable.platformPositionX = info.raw.globalPosition.dx;
+      platformPositionX = info.raw.globalPosition.dx;
       print("${info.raw.globalPosition.dx}, ${info.raw.globalPosition.dy}");
     }
     super.onTapDown(info);
@@ -116,7 +132,7 @@ class MainGame extends FlameGame with TapDetector, HasCollidables{
 
   int randomf(){
     int min = 20;
-    int max = variable.screenWidth.toInt()-(192+20);
+    int max = screenWidth.toInt()-(192+20);
     return min + Random().nextInt(max-min);
   }
 
@@ -127,17 +143,22 @@ class MainGame extends FlameGame with TapDetector, HasCollidables{
     children.whereType<PlayerComponent>().forEach((element) {remove(element);});
     remove(score);
 
-    variable.pauseColision=false;
-    variable.speed=0;
-    variable.isDown=true;
-    variable.platformPositionX=0;
-    variable.jumperdy=0;
-    variable.firstTime=true;
+    pauseColision=false;
+    speed=0;
+    isDown=true;
+    platformPositionX=0;
+    jumperdy=0;
+    firstTime=true;
     LoadAssets();
   }
 
   void LoadAssets(){
-
+    grass=Grass(
+      sprite: grassTexture.getSpriteById(0),
+      size: Vector2(screenWidth,20),
+      position: Vector2(0,screenHeight-20),
+    );
+    add(grass);
     jumper=PlayerComponent(
       sprite: player.getSpriteById(0),
       size: Vector2(64,55),
@@ -150,24 +171,24 @@ class MainGame extends FlameGame with TapDetector, HasCollidables{
     obstacle=Obstacle(
       sprite: szczebel.getSpriteById(0),
       size: Vector2(random.toDouble(),9),
-      position: Vector2(0,variable.screenHeight/3),
+      position: Vector2(0,screenHeight/3),
     );
     add(obstacle);
     obstacle=Obstacle(
       sprite: szczebel.getSpriteById(0),
-      size: Vector2(variable.screenWidth-(64*3 + random),9),
-      position: Vector2(random + 64*3,variable.screenHeight/3),
+      size: Vector2(screenWidth-(64*3 + random),9),
+      position: Vector2(random + 64*3,screenHeight/3),
     );
     add(obstacle);
     scoreCounter=ScoreCounter(
       sprite: szczebeln.getSpriteById(0),
       size: Vector2(64*3-70,9),
-      position: Vector2(random.toDouble()+35,variable.screenHeight/3),
+      position: Vector2(random.toDouble()+35,screenHeight/3),
     );
     add(scoreCounter);
-    variable.spawner=variable.screenHeight/8;
-    variable.score=0;
-    score=TextComponent(text: '0', position: Vector2(variable.screenWidth/2,40),textRenderer: TextPaint(style: style),anchor: Anchor.center);
+    spawner=screenHeight/8;
+    scorePoints=0;
+    score=TextComponent(text: '0', position: Vector2(screenWidth/2,40),textRenderer: TextPaint(style: style),anchor: Anchor.center);
     add(score);
   }
 

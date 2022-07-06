@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jumpy_jumper_jumps/Game/MainGame.dart';
 import 'package:jumpy_jumper_jumps/Main_menu/MainMenu.dart';
-import 'package:jumpy_jumper_jumps/variables.dart' as variable;
 
 class GameOverMenu extends StatelessWidget {
   static const String ID = 'GameOverMenu';
@@ -21,8 +20,8 @@ class GameOverMenu extends StatelessWidget {
             height: MediaQuery.of(context).size.height / 8,
           ),
           Container(
-            height: variable.screenHeight / 8,
-            width: variable.screenWidth / 2,
+            height: MediaQuery.of(context).size.height / 8,
+            width: MediaQuery.of(context).size.width / 2,
             decoration: const BoxDecoration(
                 image: DecorationImage(
                     image: AssetImage('assets/images/GameOver.png'))),
@@ -53,7 +52,7 @@ class GameOverMenu extends StatelessWidget {
                       padding: const EdgeInsets.fromLTRB(15, 20, 0, 0),
                       child: Container(
                         child: Text(
-                          'Score: ${variable.score}',
+                          'Score: ${gameRef.scorePoints}',
                           style: const TextStyle(
                               fontSize: 20,
                               color: Colors.white,
@@ -64,8 +63,9 @@ class GameOverMenu extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(15,15, 0, 0),
                       child: Container(
+                        width: (MediaQuery.of(context).size.width * 0.85)/2,
                         child: Text(
-                          'Highscore: ${variable.highScore}',
+                          'Highscore: ${gameRef.highScore}',
                           style: const TextStyle(
                               fontSize: 20,
                               color: Colors.white,
@@ -76,8 +76,8 @@ class GameOverMenu extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(15, 10, 0, 0),
                       child: Container(
-                        width: variable.screenWidth/3,
-                        height: variable.screenHeight/12,
+                        width: MediaQuery.of(context).size.width/3,
+                        height: MediaQuery.of(context).size.height/12,
                             child: const Text(
                                 'Come on you can do better give it another try',
                                 style: TextStyle(fontWeight: FontWeight.bold),
@@ -87,23 +87,23 @@ class GameOverMenu extends StatelessWidget {
                   ],
                 ),
                 //SizedBox(
-               //   width: variable.screenWidth / 5,
+               //   width: MediaQuery.of(context).size.width / 5,
                // ),
                 Column(
                   children: [
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
                       child: Container(
-                        height: variable.screenHeight / 8,
-                        width: variable.screenWidth/6,
+                        height: MediaQuery.of(context).size.height / 8,
+                        width: MediaQuery.of(context).size.width/6,
                         decoration: BoxDecoration(
                             image: DecorationImage(
-                                image: variable.score >= 10 && variable.score < 30
+                                image: gameRef.scorePoints >= 10 && gameRef.scorePoints < 30
                                     ? const AssetImage('assets/images/brown.png')
-                                    : variable.score >= 30 && variable.score < 50
+                                    : gameRef.scorePoints >= 30 && gameRef.scorePoints < 50
                                         ? const AssetImage(
                                             'assets/images/silver.png')
-                                        : variable.score >= 50
+                                        : gameRef.scorePoints >= 50
                                             ? const AssetImage(
                                                 'assets/images/gold.png')
                                             : const AssetImage(
@@ -113,9 +113,9 @@ class GameOverMenu extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
                       child: Container(
-                          height: variable.screenHeight / 10,
-                          width: variable.screenWidth / 4,
-                          child: variable.score >= 10 && variable.score < 30
+                          height: MediaQuery.of(context).size.height / 10,
+                          width: MediaQuery.of(context).size.width / 4,
+                          child: gameRef.scorePoints >= 10 && gameRef.scorePoints < 30
                               ? Column(
                                   children: const [
                                      Text('YOU GOT BRONZE...', textAlign: TextAlign.center,),
@@ -123,7 +123,7 @@ class GameOverMenu extends StatelessWidget {
                                      Text('Not bad at all', textAlign: TextAlign.center,),
                                   ],
                                 )
-                              : variable.score >= 30 && variable.score < 50
+                              : gameRef.scorePoints >= 30 && gameRef.scorePoints < 50
                                   ? Column(
                                       children: const [
                                         Text('WOW SILVER TROPHY', textAlign: TextAlign.center,),
@@ -131,7 +131,7 @@ class GameOverMenu extends StatelessWidget {
                                         Text('You are so good', textAlign: TextAlign.center,),
                                       ],
                                     )
-                                  : variable.score >= 50
+                                  : gameRef.scorePoints >= 50
                                       ? Column(
                                           children: const [
                                             Text('GOLDEN TROPHY?!?!', textAlign: TextAlign.center,),
@@ -162,8 +162,8 @@ class GameOverMenu extends StatelessWidget {
               gameRef.resumeEngine();
             },
             child: Container(
-              width: variable.screenWidth/3,
-              height: variable.screenHeight/8,
+              width: MediaQuery.of(context).size.width/3,
+              height: MediaQuery.of(context).size.height/8,
               decoration: const BoxDecoration(
                   image: DecorationImage(
                       image: AssetImage('assets/images/button.png')),
@@ -191,12 +191,12 @@ class GameOverMenu extends StatelessWidget {
  */
 
 /*
-variable.score >= 10 && variable.score < 30
+gameRef.scorePoints >= 10 && gameRef.scorePoints < 30
                               ? const AssetImage('assets/images/brown.png')
-                              : variable.score >= 30 && variable.score < 50
+                              : gameRef.scorePoints >= 30 && gameRef.scorePoints < 50
                                   ? const AssetImage(
                                       'assets/images/silver.png')
-                                  : variable.score >= 50
+                                  : gameRef.scorePoints >= 50
                                       ? const AssetImage(
                                           'assets/images/gold.png')
                                       : const AssetImage(
