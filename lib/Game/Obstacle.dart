@@ -7,7 +7,6 @@ import 'dart:ui';
 import 'dart:math' as math;
 import 'package:flame/components.dart';
 import 'package:flame/geometry.dart';
-
 import 'package:jumpy_jumper_jumps/variables.dart' as variable;
 
 class Obstacle extends SpriteComponent with HasHitboxes, Collidable{
@@ -27,7 +26,7 @@ void onMount() {
 
   @override
   void update(double dt) {
-    if(variable.jumperdy<=variable.screenHeight/2 && variable.isDown==false){
+    if(variable.jumperdy<=variable.screenHeight/2 && variable.isDown==false && variable.firstTime==false){
       position+=moveDirection.normalized() * variable.speed*0.016;
     }
     if(position[1]>=variable.screenHeight) removeFromParent();

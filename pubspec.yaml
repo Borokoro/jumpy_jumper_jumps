@@ -31,6 +31,7 @@ dependencies:
   flame_audio: 1.0.0
   google_fonts: 2.2.0
   shared_preferences: ^2.0.15
+  flutter_launcher_icons: ^0.9.3
   flutter:
     sdk: flutter
 
@@ -54,6 +55,11 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter.
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/jumper3.png"
+
 flutter:
 
   # The following line ensures that the Material Icons font is
@@ -65,9 +71,6 @@ flutter:
   assets:
     - assets/images/
     - assets/audio/
-    - family: FancinateInline
-      fonts:
-        - assets/font/FancinateInline-Regular.ttf
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

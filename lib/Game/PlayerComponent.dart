@@ -37,7 +37,6 @@ class PlayerComponent extends SpriteComponent
 
   @override
   void update(double dt) {
-    print("1");
     variables.jumperdy = position[1];
     if (licznik > 100) licznik = 6;
     licznik++;
@@ -53,9 +52,12 @@ class PlayerComponent extends SpriteComponent
     } else {
       if (variables.jumperdy > variables.screenHeight / 2) {
         position += moveDirection.normalized() * variables.speed * 0.016;
-      } else {
+      } else if(variables.firstTime==false){
          position += Vector2((x*0.5) * variables.speed * 0.016, 0);
         variables.spawner += variables.speed * 0.016;
+      }
+      else{
+        position += moveDirection.normalized() * variables.speed * 0.016;
       }
       variables.speed -= 8;
     }
@@ -66,13 +68,13 @@ class PlayerComponent extends SpriteComponent
   void onCollision(Set<Vector2> intersectionPoints, Collidable other) {
     super.onCollision(intersectionPoints, other);
     if (other is Platform) {
+      variables.firstTime=false;
       variables.speed = 700;
       x = (position.x - variables.platformPositionX) * 0.06;
       y = -1;
       moveDirection = Vector2(x, y);
       variables.isDown = false;
       other.removeFromParent();
-      variables.firstTime=false;
     } else if (other is ScreenCollidable) {
       final firstPoint = intersectionPoints.first;
       final screenPoint = gameRef.viewportProjector;

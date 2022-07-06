@@ -28,7 +28,7 @@ class ScoreCounter extends SpriteComponent with HasHitboxes, Collidable{
 
   @override
   void update(double dt) {
-    if(variable.jumperdy<=variable.screenHeight/2 && variable.isDown==false){
+    if(variable.jumperdy<=variable.screenHeight/2 && variable.isDown==false && variable.firstTime==false){
       position+=moveDirection.normalized() * variable.speed*0.016;
     }
     if(position[1]>=variable.screenHeight) removeFromParent();
