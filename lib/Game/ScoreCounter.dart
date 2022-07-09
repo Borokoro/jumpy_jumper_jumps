@@ -39,6 +39,7 @@ class ScoreCounter extends SpriteComponent with HasHitboxes, Collidable, HasGame
     if(other is PlayerComponent){
       FlameAudio.play('scorePoint.mp3');
       gameRef.scorePoints++;
+      gameRef.score.text=gameRef.scorePoints.toString();
       removeFromParent();
     }
   }

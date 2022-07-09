@@ -73,7 +73,7 @@ class GameOverMenu extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Padding(
+                  Padding(
                       padding: const EdgeInsets.fromLTRB(15, 10, 0, 0),
                       child: Container(
                         width: MediaQuery.of(context).size.width/3,
@@ -143,7 +143,7 @@ class GameOverMenu extends StatelessWidget {
                                           children: const [
                                             Text('NO TROPHY THIS TIME', textAlign: TextAlign.center,),
                                             SizedBox(height: 4),
-                                            Text('Keep trying and you will get one', textAlign: TextAlign.center,),
+                                            //Text('Keep trying and you will get one', textAlign: TextAlign.center,),
                                           ],
                                         )),
                     ),

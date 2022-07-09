@@ -75,7 +75,6 @@ class MainGame extends FlameGame with TapDetector, HasCollidables{
   void update(double dt) {
     if(spawner>screenHeight/2){
       random=randomf();
-      print(random);
       spawner=0;
       obstacle=Obstacle(
         sprite: szczebel.getSpriteById(0),
@@ -96,7 +95,6 @@ class MainGame extends FlameGame with TapDetector, HasCollidables{
       );
       add(obstacle);
     }
-    score.text=scorePoints.toString();
     if(isDead){
       FlameAudio.play('death.mp3');
       isDead=false;
