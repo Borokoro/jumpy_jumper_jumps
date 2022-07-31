@@ -36,7 +36,6 @@ void onMount() {
 @override
 void onCollision(Set<Vector2> intersectionPoints, Collidable other) {
   if(other is PlayerComponent && gameRef.pauseColision==false){
-    print('dead');
     gameRef.pauseColision=true;
     gameRef.isDead=true;
   }

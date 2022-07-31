@@ -67,13 +67,16 @@ class MainGame extends FlameGame with TapDetector, HasCollidables{
     grassTexture=SpriteSheet.fromColumnsAndRows(image: images.fromCache('grass.png'), columns: 1, rows: 1);
     spriteSheet = SpriteSheet.fromColumnsAndRows(
         image: images.fromCache('platform.png'), columns: 1, rows: 1);
+    score=TextComponent(text: '0', position: Vector2(screenWidth/2,40),textRenderer: TextPaint(style: style),anchor: Anchor.center);
+    add(score);
+    add(ScreenCollidable());
      LoadAssets();
   return super.onLoad();
   }
 
 @override
   void update(double dt) {
-    if(spawner>screenHeight/2){
+    if(spawner>screenHeight/1.75){
       random=randomf();
       spawner=0;
       obstacle=Obstacle(
@@ -98,12 +101,12 @@ class MainGame extends FlameGame with TapDetector, HasCollidables{
     if(isDead){
       FlameAudio.play('death.mp3');
       isDead=false;
-      this.pauseEngine();
+      pauseEngine();
       if(scorePoints>highScore!.toInt()){
         highScore=scorePoints;
         InitializePref(score: scorePoints).setHighscore();
       }
-      this.overlays.add(GameOverMenu.ID);
+      overlays.add(GameOverMenu.ID);
 
     }
     super.update(dt);
@@ -139,7 +142,6 @@ class MainGame extends FlameGame with TapDetector, HasCollidables{
     children.whereType<Obstacle>().forEach((element) {remove(element);});
     children.whereType<ScoreCounter>().forEach((element) {remove(element);});
     children.whereType<PlayerComponent>().forEach((element) {remove(element);});
-    remove(score);
 
     pauseColision=false;
     speed=0;
@@ -147,6 +149,8 @@ class MainGame extends FlameGame with TapDetector, HasCollidables{
     platformPositionX=0;
     jumperdy=0;
     firstTime=true;
+    scorePoints=0;
+    score.text=scorePoints.toString();
     LoadAssets();
   }
 
@@ -163,7 +167,6 @@ class MainGame extends FlameGame with TapDetector, HasCollidables{
       position: camera.canvasSize/2,
     );
     jumper.anchor=Anchor.center;
-    add(ScreenCollidable());
     add(jumper);
     random=randomf();
     obstacle=Obstacle(
@@ -184,10 +187,7 @@ class MainGame extends FlameGame with TapDetector, HasCollidables{
       position: Vector2(random.toDouble()+35,screenHeight/3),
     );
     add(scoreCounter);
-    spawner=screenHeight/8;
-    scorePoints=0;
-    score=TextComponent(text: '0', position: Vector2(screenWidth/2,40),textRenderer: TextPaint(style: style),anchor: Anchor.center);
-    add(score);
+    spawner=0;
   }
 
 }
