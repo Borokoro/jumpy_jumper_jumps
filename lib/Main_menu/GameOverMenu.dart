@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:jumpy_jumper_jumps/Game/MainGame.dart';
 import 'package:jumpy_jumper_jumps/Main_menu/MainMenu.dart';
 
@@ -136,7 +139,7 @@ class GameOverMenu extends StatelessWidget {
                                           children: const [
                                             Text('GOLDEN TROPHY?!?!', textAlign: TextAlign.center,),
                                             SizedBox(height: 4),
-                                            Text('you are insane', textAlign: TextAlign.center,),
+                                            Text('you are pro', textAlign: TextAlign.center,),
                                           ],
                                         )
                                       : Column(
@@ -155,50 +158,45 @@ class GameOverMenu extends StatelessWidget {
               ],
             ),
           ),
-          GestureDetector(
-            onTap: () {
-              gameRef.overlays.remove(GameOverMenu.ID);
-              gameRef.reset();
-              gameRef.resumeEngine();
-            },
-            child: Container(
-              width: MediaQuery.of(context).size.width/3,
-              height: MediaQuery.of(context).size.height/8,
-              decoration: const BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage('assets/images/button.png')),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  gameRef.overlays.remove(GameOverMenu.ID);
+                  gameRef.reset();
+                  gameRef.resumeEngine();
+                },
+                child: Container(
+                  width: MediaQuery.of(context).size.width/3,
+                  height: MediaQuery.of(context).size.height/8,
+                  decoration: const BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage('assets/images/button.png')),
+                  ),
+                ),
               ),
-            ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width*0.15,
+              ),
+              GestureDetector(
+                onTap: () {
+                  //SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+                  exit(0);
+                },
+                child: Container(
+                  width: MediaQuery.of(context).size.width/3,
+                  height: MediaQuery.of(context).size.height/8,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage('assets/images/buttonExit1.png')),
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),
     );
   }
 }
-
-/* // Restart button.
-          SizedBox(
-            width: MediaQuery.of(context).size.width / 3,
-            child: ElevatedButton(
-              onPressed: () {
-                gameRef.overlays.remove(GameOverMenu.ID);
-                gameRef.reset();
-                gameRef.resumeEngine();
-              },
-              child: const Text('Restart'),
-            ),
-          ),
- */
-
-/*
-gameRef.scorePoints >= 10 && gameRef.scorePoints < 30
-                              ? const AssetImage('assets/images/brown.png')
-                              : gameRef.scorePoints >= 30 && gameRef.scorePoints < 50
-                                  ? const AssetImage(
-                                      'assets/images/silver.png')
-                                  : gameRef.scorePoints >= 50
-                                      ? const AssetImage(
-                                          'assets/images/gold.png')
-                                      : const AssetImage(
-                                          'assets/images/nothing.png')
- */
