@@ -27,6 +27,8 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  cloud_firestore: ^3.5.0
+  firebase_core: ^1.24.0
   flame: 1.0.0
   flame_audio: 1.0.0
   google_fonts: 2.2.0

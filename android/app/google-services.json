@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "206628364933",
+    "project_id": "jumpyjumper-f2e87",
+    "storage_bucket": "jumpyjumper-f2e87.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:206628364933:android:95550630446a5de4bb3fec",
+        "android_client_info": {
+          "package_name": "site.marksprojects.jumpy_jumper_jumps"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "206628364933-4l85gtk27odfrtej7t4bg98igsrhvekb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9t-qzqDek0ODMf9RnqHO1_ue60QHjBL4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "206628364933-4l85gtk27odfrtej7t4bg98igsrhvekb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
