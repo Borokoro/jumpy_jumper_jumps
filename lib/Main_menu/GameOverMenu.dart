@@ -1,14 +1,18 @@
 import 'dart:io';
-
+import 'package:jumpy_jumper_jumps/Main_menu/MainMenu.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jumpy_jumper_jumps/Game/MainGame.dart';
 import 'package:jumpy_jumper_jumps/Main_menu/MainMenu.dart';
+import 'package:jumpy_jumper_jumps/Main_menu/Popup.dart';
+import 'package:jumpy_jumper_jumps/variables.dart' as variables;
 
 class GameOverMenu extends StatelessWidget {
   static const String ID = 'GameOverMenu';
   final MainGame gameRef;
+  static bool alreadyAdded=false;
 
   const GameOverMenu({Key? key, required this.gameRef}) : super(key: key);
 
@@ -81,9 +85,12 @@ class GameOverMenu extends StatelessWidget {
                       child: Container(
                         width: MediaQuery.of(context).size.width/3,
                         height: MediaQuery.of(context).size.height/12,
-                            child: const Text(
-                                'Come on you can do better give it another try',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                            child: Text(
+                                'Earned: ${(gameRef.scorePoints~/2).toString()}💲',
+                                style: const TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
                             ),
                       ),
                     ),
@@ -163,6 +170,7 @@ class GameOverMenu extends StatelessWidget {
             children: [
               GestureDetector(
                 onTap: () {
+                  alreadyAdded=false;
                   gameRef.overlays.remove(GameOverMenu.ID);
                   gameRef.reset();
                   gameRef.resumeEngine();
@@ -181,19 +189,65 @@ class GameOverMenu extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  //SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-                  exit(0);
+                  {
+                    if (gameRef.scorePoints >
+                        variables.score[9] && alreadyAdded==false) {
+                      showDialog(
+                        context: context,
+                        builder: (context) => Popup(score: gameRef.scorePoints),
+                      );
+                    }
+                    else if(alreadyAdded==true){
+                      Fluttertoast.showToast(
+                          msg: "You already added your score",
+                          toastLength: Toast.LENGTH_LONG,
+                          gravity: ToastGravity.BOTTOM,
+                          timeInSecForIosWeb: 3,
+                          backgroundColor: Colors.red,
+                          textColor: Colors.white,
+                          fontSize: 16.0);
+                    }
+                    else{
+                      Fluttertoast.showToast(
+                          msg: "Your score is not good enough",
+                          toastLength: Toast.LENGTH_LONG,
+                          gravity: ToastGravity.BOTTOM,
+                          timeInSecForIosWeb: 3,
+                          backgroundColor: Colors.red,
+                          textColor: Colors.white,
+                          fontSize: 16.0);
+                    }
+                  }
+
                 },
                 child: Container(
                   width: MediaQuery.of(context).size.width/3,
                   height: MediaQuery.of(context).size.height/8,
                   decoration: const BoxDecoration(
                     image: DecorationImage(
-                        image: AssetImage('assets/images/buttonExit1.png')),
+                        image: AssetImage('assets/images/saveScore.png')),
                   ),
                 ),
               ),
             ],
+          ),
+          GestureDetector(
+            onTap: () {
+              //SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+              //exit(0);
+              gameRef.overlays.remove(GameOverMenu.ID);
+              gameRef.reset();
+              gameRef.resumeEngine();
+              gameRef.overlays.add(MainMenu.ID);
+            },
+            child: Container(
+              width: MediaQuery.of(context).size.width/3,
+              height: MediaQuery.of(context).size.height/8,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage('assets/images/buttonExit1.png')),
+              ),
+            ),
           ),
         ],
       ),

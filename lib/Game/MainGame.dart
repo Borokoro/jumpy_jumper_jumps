@@ -14,11 +14,14 @@ import 'package:jumpy_jumper_jumps/Game/Obstacle.dart';
 import 'package:jumpy_jumper_jumps/Game/PlayerComponent.dart';
 import 'package:jumpy_jumper_jumps/Game/GameScreen.dart';
 import 'package:jumpy_jumper_jumps/Game/Platform.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'Grass.dart';
 import 'package:jumpy_jumper_jumps/Game/Obstacle.dart';
 import 'ScoreCounter.dart';
 import 'package:jumpy_jumper_jumps/Highscore/SharedPreferences.dart';
 import 'package:flame_audio/bgm.dart';
+import 'package:jumpy_jumper_jumps/variables.dart' as variables;
+import 'package:jumpy_jumper_jumps/Main_menu/Shop.dart';
 
 class MainGame extends FlameGame with TapDetector, HasCollidables{
   bool hasTapped=false;
@@ -28,13 +31,16 @@ class MainGame extends FlameGame with TapDetector, HasCollidables{
   late Obstacle obstacle;
   late final szczebel;
   late final szczebeln;
-  late final player;
+  var player;
   late final spriteSheet;
   late final grassTexture;
   late Grass grass;
   late TextComponent score;
+  late TextComponent money;
   late ScoreCounter scoreCounter;
+  static SharedPreferences? preferences;
   final style=TextStyle(color: BasicPalette.white.color,fontSize: 50,fontFamily: 'FascinateInline',fontWeight: FontWeight.bold);
+  final style1=TextStyle(color: BasicPalette.white.color,fontSize: 25,fontFamily: 'FascinateInline',fontWeight: FontWeight.bold);
   int? highScore=0;
   bool firstTime=true;
   int scorePoints=0;
@@ -47,9 +53,19 @@ class MainGame extends FlameGame with TapDetector, HasCollidables{
   double spawner=0;
   double jumperdy=0;
   double platformPositionX=0;
+  List<String> jumpers = [
+    'jumper3.png',
+    'jumperGreen.png',
+    'jumperBlue.png',
+    'jumperBlack.png',
+    'gold.png',
+    'jumperTr2.png',
+  ];
 
   Future<void> onLoad() async {
-    await images.load('jumper3.png');
+    for(int i=0; i<jumpers.length;i++){
+      await images.load(jumpers[i]);
+    }
     await images.load('platform.png');
     await images.load('szczebel.png');
     await images.load('scoreCounter.png');
@@ -61,21 +77,23 @@ class MainGame extends FlameGame with TapDetector, HasCollidables{
       ..sprite=await loadSprite('background2.png')
       ..size=size;
     add(background);
-    player=SpriteSheet.fromColumnsAndRows(image: images.fromCache('jumper3.png'), columns: 1, rows: 1);
+    player=SpriteSheet.fromColumnsAndRows(image: images.fromCache(jumpers[variables.pick]), columns: 1, rows: 1);
     szczebel=SpriteSheet.fromColumnsAndRows(image: images.fromCache('szczebel.png'), columns: 1, rows: 1);
     szczebeln=SpriteSheet.fromColumnsAndRows(image: images.fromCache('scoreCounter.png'), columns: 1, rows: 1);
     grassTexture=SpriteSheet.fromColumnsAndRows(image: images.fromCache('grass.png'), columns: 1, rows: 1);
     spriteSheet = SpriteSheet.fromColumnsAndRows(
         image: images.fromCache('platform.png'), columns: 1, rows: 1);
     score=TextComponent(text: '0', position: Vector2(screenWidth/2,40),textRenderer: TextPaint(style: style),anchor: Anchor.center);
+    money=TextComponent(text: '${variables.money}💰', position: Vector2(screenWidth*0.9,40),textRenderer: TextPaint(style: style1),anchor: Anchor.center);
     add(score);
+    add(money);
     add(ScreenCollidable());
      LoadAssets();
   return super.onLoad();
   }
 
 @override
-  void update(double dt) {
+  void update(double dt) async{
     if(spawner>screenHeight/1.75){
       random=randomf();
       spawner=0;
@@ -101,6 +119,9 @@ class MainGame extends FlameGame with TapDetector, HasCollidables{
     if(isDead){
       FlameAudio.play('death.mp3');
       isDead=false;
+      variables.money+=scorePoints~/2;
+      money.text="${variables.money.toString()}💰";
+      await setMoney();
       pauseEngine();
       if(scorePoints>highScore!.toInt()){
         highScore=scorePoints;
@@ -111,6 +132,12 @@ class MainGame extends FlameGame with TapDetector, HasCollidables{
     }
     super.update(dt);
   }
+
+  Future setMoney() async {
+    preferences = await SharedPreferences.getInstance();
+    preferences!.setInt("MoneyJumpyJumper911", variables.money);
+  }
+
   @override
   void onTapDown(TapDownInfo info) {
     if(pauseColision==false) {
@@ -126,7 +153,6 @@ class MainGame extends FlameGame with TapDetector, HasCollidables{
       platform.anchor = Anchor.center;
       add(platform);
       platformPositionX = info.raw.globalPosition.dx;
-      print("${info.raw.globalPosition.dx}, ${info.raw.globalPosition.dy}");
     }
     super.onTapDown(info);
   }

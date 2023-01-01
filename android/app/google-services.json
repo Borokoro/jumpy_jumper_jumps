@@ -1,13 +1,14 @@
 {
   "project_info": {
     "project_number": "206628364933",
+    "firebase_url": "https://jumpyjumper-f2e87-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "jumpyjumper-f2e87",
     "storage_bucket": "jumpyjumper-f2e87.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:206628364933:android:95550630446a5de4bb3fec",
+        "mobilesdk_app_id": "1:206628364933:android:9ea128642740e93cbb3fec",
         "android_client_info": {
           "package_name": "site.marksprojects.jumpy_jumper_jumps"
         }

@@ -4,14 +4,14 @@ import 'package:jumpy_jumper_jumps/Main_menu/GameOverMenu.dart';
 import 'package:jumpy_jumper_jumps/Game/MainGame.dart';
 import 'package:jumpy_jumper_jumps/Main_menu/MainMenu.dart';
 
-MainGame _mainGame=MainGame();
-
 class MenuHandler extends StatelessWidget {
-  const MenuHandler({Key? key}) : super(key: key);
+  MenuHandler({Key? key}) : super(key: key);
 
+  final MainGame _mainGame=MainGame();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
 
       body: WillPopScope(
         onWillPop: () async => false,
