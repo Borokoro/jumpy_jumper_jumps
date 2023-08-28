@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jumpy_jumper_jumps/Main_menu/GameOverMenu.dart';
 import 'package:jumpy_jumper_jumps/variables.dart' as variables;
 import 'package:jumpy_jumper_jumps/Firebase/myFirebase.dart';
+import 'package:lottie/lottie.dart';
 
 
 class Popup extends StatefulWidget {
@@ -22,7 +23,15 @@ class _PopupState extends State<Popup> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Enter your name'),
+      title: Align(
+        alignment: Alignment.topCenter,
+        child: Lottie.network('https://assets8.lottiefiles.com/packages/lf20_Che8IZ2raX.json',
+          width: MediaQuery.of(context).size.width/3,
+          height: MediaQuery.of(context).size.height/6,
+          frameRate: FrameRate.max,
+          fit: BoxFit.fill,
+        ),
+      ),
       contentPadding: const EdgeInsets.all(20.0),
       content: Builder(
         builder: (context){
@@ -34,9 +43,18 @@ class _PopupState extends State<Popup> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+            const Text(
+            'Enter your name',
+              style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+            ),
+                const SizedBox(height: 10,),
                 TextFormField(
                   controller: myController,
                 ),
+                const SizedBox(height: 10,),
                 ElevatedButton(
                     onPressed: () async{
                       if(myController.text.length>10){
@@ -75,7 +93,7 @@ class _PopupState extends State<Popup> {
                       }
                       Navigator.of(context).pop();
                     },
-                  child: Text('Save'),
+                  child: const Text('Save'),
                     ),
               ],
             ),

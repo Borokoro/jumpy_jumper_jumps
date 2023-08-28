@@ -42,9 +42,9 @@ class _TutorialState extends State<Tutorial> {
           ),
           color: Color(0xffc9a064),
         ),
-        child: Align(
+        child: const Align(
           alignment: Alignment.center,
-          child: const Text(
+          child: Text(
             'You are in tutorial',
             style: TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
@@ -116,9 +116,9 @@ class _TutorialState extends State<Tutorial> {
           ),
           color: Color(0xffc9a064),
         ),
-        child: Align(
+        child: const Align(
           alignment: Alignment.center,
-          child: const Text(
+          child: Text(
             'You are in tutorial',
             style: TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
@@ -196,45 +196,45 @@ class _TutorialState extends State<Tutorial> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
-          Text(
+          const Text(
             'To access the shop swipe left in the main menu',
             style: TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           ),
-          Text(
+          const Text(
             'Total amount of your money is shown on the top of your screen next to 💰',
             style: TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           ),
-          Text(
+          const Text(
             'If button is red, it means that you dont have enough money',
             style: TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           ),
-          Text(
+          const Text(
             'If button is dark it means you can buy this skin',
             style: TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           ),
-          Text(
+          const Text(
             'If there is checkbox next to the skin, it means that you already own this skin',
             style: TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           ),
-          Text(
+          const Text(
             'The checked skin is the one you are currently using',
             style: TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           ),
-          Text(
+          const Text(
             'Swipe down to quit this page and then right to go to another tutorial page',
             style: TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
         ],
@@ -270,10 +270,10 @@ class _TutorialState extends State<Tutorial> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
-          Text(
+          const Text(
             'To access the leaderboard swipe right in the main menu',
             style: TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
@@ -281,7 +281,7 @@ class _TutorialState extends State<Tutorial> {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
+              const Text(
                 'You can add your record here after you end your run, by pressing this button:',
                 style: TextStyle(
                     fontSize: 20,
@@ -299,22 +299,22 @@ class _TutorialState extends State<Tutorial> {
             ],
           ),
           //your score if it is good enough (there are only 10 places in the leaderboard) and you have internet connection
-          Text(
+          const Text(
             'Remember that you can only add your score after finished run. If you leave game over screen, you will no longer be able to publish your score',
             style: TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           ),
-          Text(
+          const Text(
             'Remember that your score will be published only if it is good enough (there are only 10 places in the leaderboard) and your device has internet connection',
             style: TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           ),
-          Text(
+          const Text(
             'Swipe down to quit this page and then right to go to another tutorial page',
             style: TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
         ],
@@ -350,10 +350,10 @@ class _TutorialState extends State<Tutorial> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
-          Text(
+          const Text(
             'To start your game you have to simply tap the screen in the main menu',
             style: TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
@@ -361,7 +361,7 @@ class _TutorialState extends State<Tutorial> {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
+              const Text(
                 'If you are in the game over menu you can try again by pressing this button: ',
                 style: TextStyle(
                     fontSize: 20,
@@ -381,7 +381,7 @@ class _TutorialState extends State<Tutorial> {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
+              const Text(
                 'You can also go to the main menu by pressing this button: ',
                 style: TextStyle(
                     fontSize: 20,
@@ -426,7 +426,7 @@ class _TutorialState extends State<Tutorial> {
                   fillColor: MaterialStateProperty.all(const Color(0xffc9a064)),
                 ),
               ),
-              Text(
+              const Text(
                 'I dont want to see this tutorial again',
                 style: TextStyle(
                     fontSize: 20,
@@ -435,14 +435,27 @@ class _TutorialState extends State<Tutorial> {
               ),
             ],
           ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => MenuHandler()));
-            },
-            child: Text('Press me and go play'),
+          Container(
+            width: MediaQuery.of(context).size.width/2,
+            height: MediaQuery.of(context).size.height/13,
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => MenuHandler()));
+              },
+              child: const Text('Press me and go play'),
+              style: ButtonStyle(
+                backgroundColor: const MaterialStatePropertyAll<Color>(Color(0xffc9a064)),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.zero,
+                          side: BorderSide(color: Colors.black)
+                      )
+                  )
+              ),
+            ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
         ],
