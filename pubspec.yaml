@@ -29,11 +29,11 @@ environment:
 dependencies:
   cloud_firestore: ^4.3.1
   flame: 1.0.0
-  flame_audio: 1.0.0
-  google_fonts: 2.2.0
+  flame_audio: ^1.0.0
   shared_preferences: ^2.0.15
   flutter_launcher_icons: ^0.9.3
   rename: ^2.0.1
+  ordered_set: ^5.0.1
   flutter:
     sdk: flutter
 

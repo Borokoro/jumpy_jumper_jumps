@@ -3,7 +3,6 @@ import 'package:flame/sprite.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:jumpy_jumper_jumps/Game/MainGame.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'Leaderboard.dart';
 import 'package:jumpy_jumper_jumps/variables.dart' as variables;
 import 'Shop.dart';

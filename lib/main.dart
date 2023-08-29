@@ -4,7 +4,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter/services.dart' as service;
 import 'package:jumpy_jumper_jumps/Game/GameScreen.dart';
 import 'package:jumpy_jumper_jumps/Game/MainGame.dart';
 import 'package:flame/flame.dart';
@@ -15,7 +15,6 @@ import 'package:jumpy_jumper_jumps/variables.dart' as variables;
 import 'Highscore/SharedPreferences.dart';
 import 'Main_menu/Shop.dart';
 import 'package:jumpy_jumper_jumps/Firebase/myFirebase.dart';
-import 'package:jumpy_jumper_jumps/Tutorial/tutorial.dart';
 
 Future<void> main() async {
 
@@ -27,8 +26,8 @@ Future<void> main() async {
   await getPick();
   await getLeaderboard();
   await getTutorial();
-  SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  service.SystemChrome.setPreferredOrientations(
+      [service.DeviceOrientation.portraitUp, service.DeviceOrientation.portraitDown]);
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -36,7 +35,7 @@ Future<void> main() async {
       darkTheme: ThemeData.dark(),
       home: Scaffold(
           resizeToAvoidBottomInset: false,
-          body: variables.tutorial == 0 ? MenuHandler() : Tutorial()),
+          body: MenuHandler()),
       builder: (context, child){
         return MediaQuery(
             child: child!,
